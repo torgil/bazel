@@ -163,11 +163,14 @@ public final class CcCommon {
 
   public CcCommon(RuleContext ruleContext) {
     this.ruleContext = ruleContext;
-    this.ccToolchain =
-        Preconditions.checkNotNull(
-            CppHelper.getToolchainUsingDefaultCcToolchainAttribute(ruleContext));
+    this.ccToolchain = CppHelper.getToolchainUsingDefaultCcToolchainAttribute(ruleContext);
     this.cppConfiguration = ruleContext.getFragment(CppConfiguration.class);
-    this.fdoContext = ccToolchain.getFdoContext();
+    if (this.ccToolchain != null) {
+      this.fdoContext = ccToolchain.getFdoContext();
+    }
+    else {
+      this.fdoContext = null;
+    }
   }
 
   /**
